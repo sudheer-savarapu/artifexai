@@ -67,7 +67,6 @@ import {
   SignInButton,
   SignedIn,
   SignedOut,
-  UserButton,
 } from "@clerk/nextjs";
 
 const IBMPlex = IBM_Plex_Sans({
