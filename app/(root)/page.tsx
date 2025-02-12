@@ -6,7 +6,11 @@ import Link from "next/link";
 
 const Home = async ({ searchParams }: SearchParamProps) => {
   const page = Number(searchParams?.page) || 1;
-  const searchQuery = (searchParams?.query as string) || "";
+  const searchQuery = searchParams?.query
+    ? Array.isArray(searchParams.query)
+      ? searchParams.query[0] // If it's an array, take the first element
+      : searchParams.query // Otherwise, use it directly
+    : "";
 
   const images = await getAllImages({ page, searchQuery });
 
