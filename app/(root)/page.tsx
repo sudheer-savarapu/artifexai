@@ -5,12 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 
 const Home = async ({ searchParams }: SearchParamProps) => {
-  const { page, query } = searchParams;
+  const page = Number(searchParams?.page) || 1;
+  const searchQuery = (searchParams?.query as string) || "";
 
-  const currentPage = Number(page) || 1;
-  const searchQuery = (query as string) || "";
-
-  const images = await getAllImages({ page: currentPage, searchQuery });
+  const images = await getAllImages({ page, searchQuery });
 
   return (
     <>
@@ -39,7 +37,7 @@ const Home = async ({ searchParams }: SearchParamProps) => {
           hasSearch={true}
           images={images?.data}
           totalPages={images?.totalPage}
-          page={currentPage}
+          page={page}
         />
       </section>
     </>
