@@ -119,8 +119,25 @@ declare type RemoveUrlQueryParams = {
 //   searchParams: { [key: string]: string | string[] | undefined };
 // };
 
+// declare type SearchParamProps = {
+//   searchParams?: { [key: string]: string | string[] | undefined };
+// };
+
+// declare type SearchParamProps = {
+//   searchParams?: {
+//     page?: string;
+//     query?: string;
+//     [key: string]: string | string[] | undefined;
+//   };
+// };
+
 declare type SearchParamProps = {
-  searchParams?: { [key: string]: string | string[] | undefined };
+  params: { id: string; type: TransformationTypeKey };
+  searchParams?: {
+    page?: string;
+    query?: string;
+    [key: string]: string | string[] | undefined;
+  };
 };
 
 declare type TransformationFormProps = {

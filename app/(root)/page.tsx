@@ -5,24 +5,26 @@ import Image from "next/image";
 import Link from "next/link";
 
 const Home = async ({ searchParams }: SearchParamProps) => {
-  const page = Number(searchParams?.page) || 1;
-  // const searchQuery = searchParams?.query
-  //   ? Array.isArray(searchParams.query)
-  //     ? searchParams.query[0] // If it's an array, take the first element
-  //     : searchParams.query // Otherwise, use it directly
-  //   : "";
+  // const page = Number(searchParams?.page) || 1;
 
-  const searchQuery = Array.isArray(searchParams?.query)
-    ? searchParams.query[0]
-    : searchParams?.query || "";
+  // const { page, query } = await searchParams;
+  // const page = searchParams?.page;
+  // const query = searchParams?.query;
 
-  const images = await getAllImages({ page, searchQuery });
+  const params = await searchParams;
+  const { page, query } = params as { page?: string; query?: string };
+
+  const currentPage = Number(page) || 1;
+  const searchQuery = (query as string) || "";
+  // const searchQuery = (searchParams?.query as string) || "";
+  const images = await getAllImages({ page: currentPage, searchQuery });
+  // const images = await getAllImages({ page, searchQuery });
 
   return (
     <>
       <section className="home">
         <h1 className="home-heading">
-          Unleash Your Creative Vision with Imaginify
+          Unleash Your Creative Vision with Artifexai
         </h1>
         <ul className="flex-center w-full gap-20">
           {navLinks.slice(1, 5).map((link) => (
@@ -45,7 +47,7 @@ const Home = async ({ searchParams }: SearchParamProps) => {
           hasSearch={true}
           images={images?.data}
           totalPages={images?.totalPage}
-          page={page}
+          page={Number(page) || 1}
         />
       </section>
     </>
