@@ -1,15 +1,29 @@
 "use server";
-
 import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "../database/mongoose";
 import { handleError } from "../utils";
 import User from "../database/models/user.model";
 import Image from "../database/models/image.model";
 import { redirect } from "next/navigation";
+import { Query } from "mongoose";
 
 import { v2 as cloudinary } from "cloudinary";
 
-const populateUser = (query: unknown) =>
+// const populateUser = (query: unknown) =>
+//   query.populate({
+//     path: "author",
+//     model: User,
+//     select: "_id firstName lastName clerkId",
+//   });
+
+// const populateUser = (query: { populate: (options: any) => void }) =>
+//   query.populate({
+//     path: "author",
+//     model: User,
+//     select: "_id firstName lastName clerkId",
+//   });
+
+const populateUser = (query: Query<unknown, typeof User>) =>
   query.populate({
     path: "author",
     model: User,
@@ -83,7 +97,7 @@ export async function getImageById(imageId: string) {
   try {
     await connectToDatabase();
 
-    const image = await populateUser(Image.findById(imageId));
+    const image = await populateUser(await Image.findById(imageId));
 
     if (!image) throw new Error("Image not found");
 
